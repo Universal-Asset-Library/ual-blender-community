@@ -1,0 +1,77 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Community guard
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          banned = (
+              "universal_asset_library/sources/fab.py",
+              "universal_asset_library/epic_oauth.py",
+              "universal_asset_library/ui/epic_signin.py",
+              "universal_asset_library/cloud_backup.py",
+              "universal_asset_library/ui/pro_operators.py",
+              "universal_asset_library/preferences_pro_ui.py",
+          )
+          root = Path(".")
+          bad = [p for p in banned if (root / p).exists()]
+          bar = root / "universal_asset_library/ui/asset_bar"
+          if bar.exists():
+              bad.append(str(bar))
+          if bad:
+              raise SystemExit("Pro paths present: " + ", ".join(bad))
+          flavor = (root / "universal_asset_library/package_flavor.py").read_text(encoding="utf-8")
+          assert 'FLAVOR = "community"' in flavor
+          assert "PUBLIC_STORE = True" in flavor
+          print("community guard ok")
+          PY
+
+      - name: Resolve version from tag
+        id: ver
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VER="${TAG#v}"
+          echo "version=${VER}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Package Community ZIP
+        run: python build/package_community_release.py --version "${{ steps.ver.outputs.version }}"
+
+      - name: Upload GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: UAL Blender Community ${{ steps.ver.outputs.version }}
+          body_path: .github/RELEASE_NOTES.md
+          files: |
+            dist/UniversalAssetLibrary-Blender-${{ steps.ver.outputs.version }}-Community.zip
+            dist/UniversalAssetLibrary-Blender-${{ steps.ver.outputs.version }}-Community.sha256
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+
+      - name: Notify ual-api (Community)
+        env:
+          UAL_API_BASE_URL: ${{ secrets.UAL_API_BASE_URL }}
+          UAL_API_ADMIN_TOKEN: ${{ secrets.UAL_API_ADMIN_TOKEN }}
+        run: >
+          python build/notify_ual_api.py
+          --version "${{ steps.ver.outputs.version }}"
+          --filename "UniversalAssetLibrary-Blender-${{ steps.ver.outputs.version }}-Community.zip"
+          --sha256-file "dist/UniversalAssetLibrary-Blender-${{ steps.ver.outputs.version }}-Community.sha256"
