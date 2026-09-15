@@ -46,16 +46,13 @@ python build/export_community_repo.py --out-dir ../ual-blender-community --clean
 
 Then in this repo: fill `.github/RELEASE_NOTES.md`, bump version files, commit, tag `vX.Y.Z`, push the tag. GitHub Actions packages the Community ZIP, publishes the Release, and notifies ual-api (`flavor=community`).
 
-Secrets (once): `UAL_API_BASE_URL`, `UAL_API_ADMIN_TOKEN` (same admin token as Coolify).  
-`UAL_API_BASE_URL` is already set on the public repo; set the admin token with:
+Secrets (once): `UAL_API_BASE_URL`, `UAL_API_ADMIN_TOKEN` (same admin token as Coolify).
 
 ```powershell
 $env:UAL_API_ADMIN_TOKEN = '<Coolify ADMIN_API_TOKEN>'
 # from ual-blender:
 .\build\ship_community_release.ps1 -SetCommunitySecrets
 ```
-
-See also [`ual-blender/docs/community-release-checklist.md`](https://github.com/Universal-Asset-Library/ual-blender/blob/main/docs/community-release-checklist.md) (private).
 
 ## Development
 
