@@ -1,18 +1,12 @@
-# UAL Blender 0.3.97
+# UAL Blender 0.3.98
 
 ## Highlights
 
-Browse your local asset library and eight public online sources from the Blender sidebar. This release improves Preferences links and keeps Community and Pro installs from mixing by mistake.
+GPU hover preview works again in the Community edition. Preferences and pin shortcuts are unchanged.
 
-## New
+## Fixes
 
-- Preferences **Website** opens https://universalassetlibrary.com
-- Updates refuse to install the wrong edition (Community vs Pro) so your install stays consistent
-
-## Improvements
-
-- Community Preferences only show the online sources included in this build
-- Clearer account and update wording in Preferences
+- Community: large GPU hover thumbnail preview draws correctly when hovering assets in the sidebar (settings already on)
 
 ## Compatibility
 
