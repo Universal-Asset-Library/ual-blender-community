@@ -20,7 +20,7 @@ Free Blender extension for browsing a local asset library and public online sour
 ## Install
 
 1. Download the Community ZIP from [Releases](../../releases) or https://universalassetlibrary.com/download
-2. In Blender 4.2+: **Edit → Preferences → Get Extensions → Install from Disk**
+2. In Blender 4.2+: **Edit > Preferences > Get Extensions > Install from Disk**
 3. Enable **Allow Online Access** in Blender Preferences for online sources
 
 ## Pro
