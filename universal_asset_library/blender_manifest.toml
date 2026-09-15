@@ -1,0 +1,29 @@
+schema_version = "1.0.0"
+
+id = "universal_asset_library"
+version = "0.3.96"
+name = "Universal Asset Library"
+tagline = "Browse local and online assets and import into Blender"
+maintainer = "Universal Asset Library"
+type = "add-on"
+website = "https://github.com/Slassh006/Universal-Asset-Liberary"
+tags = ["Import-Export", "Material", "3D View"]
+blender_version_min = "4.2.0"
+license = ["SPDX:GPL-3.0-or-later"]
+copyright = ["2026 Universal Asset Library"]
+
+[permissions]
+files = "Read library folders and write cache downloads"
+network = "Search and download from public asset APIs"
+
+[build]
+paths_exclude_pattern = [
+  "__pycache__/",
+  ".*",
+  "*.zip",
+  "tests/",
+  "*.md",
+  "*.mdc",
+  "*.rst",
+  "docs/",
+]
