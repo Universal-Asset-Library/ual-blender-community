@@ -18,7 +18,7 @@ Free Blender extension for browsing a local asset library and eight public onlin
 - Hover preview
 - Material Blend
 - Online sources: Poly Haven, ambientCG, GPUOpen MaterialX, LazyTextures, Three D Scans, PBRPX, Poly Pizza, Sketchfab
-- In-addon **Check for Updates** (Superhive / public build does not offer in-app ZIP install)
+- In-addon **Check for Updates** (public store build does not offer in-app ZIP install)
 
 ## Not included (Pro)
 
@@ -32,7 +32,7 @@ Get Pro at the website. Do not expect Pro modules in this repo or its ZIPs.
 
 ## Install
 
-1. Download `UniversalAssetLibrary-Blender-*-Community.zip` from [Releases](../../releases) or Superhive Market.
+1. Download `UniversalAssetLibrary-Blender-*-Community.zip` from [Releases](../../releases) or the website.
 2. Install as a Blender extension (Edit → Preferences → Get Extensions / Install from Disk).
 
 ## Release (maintainers)
@@ -40,20 +40,7 @@ Get Pro at the website. Do not expect Pro modules in this repo or its ZIPs.
 Product development happens in private **`ual-blender`**. This tree is an export:
 
 ```bash
-# from ual-blender
 python build/export_community_repo.py --out-dir ../ual-blender-community --clean
 ```
 
-Then in this repo: fill `.github/RELEASE_NOTES.md`, bump version files, commit, tag `vX.Y.Z`, push the tag. GitHub Actions packages the Community ZIP, publishes the Release, and notifies ual-api (`flavor=community`).
-
-Secrets (once): `UAL_API_BASE_URL`, `UAL_API_ADMIN_TOKEN` (same admin token as Coolify).
-
-```powershell
-$env:UAL_API_ADMIN_TOKEN = '<Coolify ADMIN_API_TOKEN>'
-# from ual-blender:
-.\build\ship_community_release.ps1 -SetCommunitySecrets
-```
-
-## Development
-
-Do not add Pro connectors here. CI (`ci.yml`) fails if Fab / asset bar / cloud backup / Pro UI modules appear.
+Then fill `.github/RELEASE_NOTES.md` (customer language only), bump version, commit, tag `vX.Y.Z`, and push the tag.
