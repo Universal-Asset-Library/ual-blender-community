@@ -252,11 +252,16 @@ def clear_memory_caches() -> CacheClearResult:
     except Exception:
         pass
     try:
-        from .ui.asset_bar import draw as asset_bar_draw
+        from .ui import gpu_overlay_draw
 
-        asset_bar_draw.clear_texture_cache()
+        gpu_overlay_draw.clear_texture_cache()
     except Exception:
-        pass
+        try:
+            from .ui.asset_bar import draw as asset_bar_draw
+
+            asset_bar_draw.clear_texture_cache()
+        except Exception:
+            pass
     return result
 
 

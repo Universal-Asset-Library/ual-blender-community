@@ -112,7 +112,7 @@ def _draw_callback():
     """POST_PIXEL: floating preview when N-panel hover is armed."""
     try:
         from . import hover_preview
-        from .asset_bar import draw as bar_draw
+        from . import gpu_overlay_draw as bar_draw
         from ..hover_preview_data import hover_tooltip_chrome_height
     except Exception:
         return

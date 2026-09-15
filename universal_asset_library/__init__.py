@@ -13,7 +13,7 @@ from __future__ import annotations
 bl_info = {
     "name": "Universal Asset Library",
     "author": "Universal Asset Library",
-    "version": (0, 3, 97),
+    "version": (0, 3, 98),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > UAL",
     "description": "Browse local and online assets; import meshes and PBR materials",

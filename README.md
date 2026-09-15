@@ -6,7 +6,6 @@ Free Blender extension for browsing a local asset library and public online sour
 |---|---|
 | **License** | GPL-3.0-or-later |
 | **Blender** | 4.2+ (tested on 5.2) |
-| **Current release** | **0.3.97** |
 | **Website** | https://universalassetlibrary.com |
 
 ## Features
