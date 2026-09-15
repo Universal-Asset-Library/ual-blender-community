@@ -1,0 +1,38 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Forbidden Pro paths
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          banned = (
+              "universal_asset_library/sources/fab.py",
+              "universal_asset_library/epic_oauth.py",
+              "universal_asset_library/ui/epic_signin.py",
+              "universal_asset_library/cloud_backup.py",
+          )
+          root = Path(".")
+          bad = [p for p in banned if (root / p).exists()]
+          bar = root / "universal_asset_library/ui/asset_bar"
+          if bar.exists():
+              bad.append(str(bar))
+          if bad:
+              raise SystemExit("Pro paths present: " + ", ".join(bad))
+          flavor = (root / "universal_asset_library/package_flavor.py").read_text(encoding="utf-8")
+          assert 'FLAVOR = "community"' in flavor
+          assert "PUBLIC_STORE = True" in flavor
+          print("community guard ok")
+          PY
