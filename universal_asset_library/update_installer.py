@@ -126,18 +126,40 @@ def _path_exists_as_module(root: str, rel: str) -> bool:
     return False
 
 
+def read_tree_flavor(root: str) -> str:
+    """Read FLAVOR from an extracted/installed addon tree's package_flavor.py."""
+    flavor_path = os.path.join(os.path.normpath(str(root or "")), "package_flavor.py")
+    try:
+        with open(flavor_path, encoding="utf-8") as handle:
+            text = handle.read()
+    except OSError:
+        return ""
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("FLAVOR") or "=" not in stripped:
+            continue
+        val = stripped.split("=", 1)[1].strip().strip("\"'")
+        if val in ("community", "pro"):
+            return val
+    return ""
+
+
+def running_package_flavor() -> str:
+    try:
+        from . import package_flavor as flavor_mod
+
+        val = str(getattr(flavor_mod, "FLAVOR", "pro") or "pro").strip().lower()
+        return val if val in ("community", "pro") else "pro"
+    except Exception:
+        return "pro"
+
+
 def is_pro_addon_tree(root: str) -> bool:
     """True when extracted/installed tree is a Pro ZIP (flavor marker + Pro modules)."""
     root = os.path.normpath(str(root or "").strip())
     if not root or not os.path.isdir(root):
         return False
-    flavor_path = os.path.join(root, "package_flavor.py")
-    try:
-        with open(flavor_path, encoding="utf-8") as handle:
-            text = handle.read()
-    except OSError:
-        return False
-    if ("FLAVOR = " + '"pro"') not in text and ("FLAVOR = " + "'pro'") not in text:
+    if read_tree_flavor(root) != "pro":
         return False
     for rel in _PRO_TREE_MARKERS:
         if not _path_exists_as_module(root, rel):
@@ -274,6 +296,19 @@ def download_verify_and_apply(
             should_cancel=should_cancel,
         )
         package_root = find_blender_addon_root(staging)
+        expected_flavor = running_package_flavor()
+        got_flavor = read_tree_flavor(package_root)
+        if got_flavor and got_flavor != expected_flavor:
+            return UpdateInstallResult(
+                ok=False,
+                message=(
+                    f"Downloaded ZIP is {got_flavor}, but this install is {expected_flavor}. "
+                    "Install aborted to avoid mixing Community and Pro."
+                ),
+                zip_path=zip_path,
+                staging_dir=package_root,
+                error="flavor_mismatch",
+            )
         if require_pro and not is_pro_addon_tree(package_root):
             return UpdateInstallResult(
                 ok=False,
