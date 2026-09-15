@@ -1,12 +1,12 @@
-# UAL Blender 0.3.98
+# UAL Blender 0.3.99
 
 ## Highlights
 
-GPU hover preview works again in the Community edition. Preferences and pin shortcuts are unchanged.
+Material Blend in the UAL sidebar now collapses on its own. Collapsing Universal Asset Library no longer hides Material Blend.
 
 ## Fixes
 
-- Community: large GPU hover thumbnail preview draws correctly when hovering assets in the sidebar (settings already on)
+- N-panel: Material Blend is a separate top-level section (Community and Pro)
 
 ## Compatibility
 

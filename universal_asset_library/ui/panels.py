@@ -33,7 +33,7 @@ from ..ui_strings import (
 # Bump these when forcing Blender to drop stale registered panel classes
 _PANEL_MAIN = "UAL_PT_main_v024"
 _PANEL_LIST = "UAL_PT_assets_v024"
-_PANEL_BLEND = "UAL_PT_material_blend_v027"
+_PANEL_BLEND = "UAL_PT_material_blend_v028"
 _PANEL_DL = "UAL_PT_downloads_v024"
 _PANEL_STATUS = "UAL_PT_status_v024"
 _UL_ASSETS = "UAL_UL_assets_v024"
@@ -786,7 +786,8 @@ class UAL_PT_material_blend_v020(bpy.types.Panel):
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "UAL"
-    bl_parent_id = _PANEL_MAIN
+    # Top-level sibling of Main — not bl_parent_id. Nested panels collapse with
+    # their parent, which hid Material Blend when collapsing Universal Asset Library.
     bl_options = {"DEFAULT_CLOSED"}
     bl_order = 15
 

@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "universal_asset_library"
-version = "0.3.98"
+version = "0.3.99"
 name = "Universal Asset Library"
 tagline = "Browse local and online assets and import into Blender"
 maintainer = "Universal Asset Library"
