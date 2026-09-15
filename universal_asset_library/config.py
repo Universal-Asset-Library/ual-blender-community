@@ -241,6 +241,15 @@ def coerce_config(raw: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         online["enabled_sources"] = list(DEFAULTS["online"]["enabled_sources"])
     else:
         online["enabled_sources"] = [str(s) for s in enabled if s]
+    try:
+        from . import package_flavor as flavor_mod
+
+        if str(getattr(flavor_mod, "FLAVOR", "") or "").strip().lower() == "community":
+            online["enabled_sources"] = [
+                sid for sid in online["enabled_sources"] if str(sid) != "fab"
+            ]
+    except Exception:
+        pass
     imp = cfg.setdefault("import", {})
     scale = str(imp.get("fab_unit_scale_mode") or "cm_to_m").lower()
     imp["fab_unit_scale_mode"] = scale if scale in ("auto", "off", "cm_to_m") else "cm_to_m"
