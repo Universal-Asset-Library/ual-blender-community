@@ -981,7 +981,10 @@ class UAL_OT_asset_drag_drop(bpy.types.Operator):
         try:
             from . import hover_preview
 
+            # Always clear on teardown (cancel / success / error) — ending drag
+            # must not unmask a selection-armed GPU tooltip over the viewport.
             hover_preview.set_drag_modal_active(False)
+            hover_preview.clear_hover_target()
         except Exception:
             pass
         try:

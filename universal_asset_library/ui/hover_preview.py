@@ -183,11 +183,20 @@ def set_select_hold_active(active: bool) -> None:
 
 
 def set_drag_modal_active(active: bool) -> None:
+    """Toggle drag-drop modal. Always dismisses the GPU preview on both edges.
+
+    Entering drag clears any selection-armed tooltip. Leaving drag clears again
+    so a card hidden only by ``_drag_modal_active`` cannot unmask after Drop.
+    """
     global _drag_modal_active
+    was = bool(_drag_modal_active)
     _drag_modal_active = bool(active)
     if _drag_modal_active:
         cancel_scheduled()
         set_pinned(False)
+        clear_hover_target()
+    elif was:
+        cancel_scheduled()
         clear_hover_target()
 
 

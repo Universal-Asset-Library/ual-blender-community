@@ -1394,6 +1394,12 @@ class UAL_OT_import_selected(bpy.types.Operator):
             return {"CANCELLED"}
         # Keep selected_index so the outline stays on the imported asset
         ui.selected_index = idx
+        try:
+            from . import hover_preview
+
+            hover_preview.clear_hover_target()
+        except Exception:
+            pass
         _set_status(context, f"Imported {item.name}")
         self.report({"INFO"}, f"Imported {item.name}")
         return {"FINISHED"}
@@ -3349,6 +3355,9 @@ def _select_drag_modal(op, context, event):
         if dx > _SELECT_DRAG_THRESHOLD or dy > _SELECT_DRAG_THRESHOLD:
             hover_preview.set_select_hold_active(False)
             hover_preview.cancel_scheduled()
+            # Dismiss before handoff — drag invoke may CANCEL before it sets
+            # drag_modal (auth / missing path), which would leave a stuck card.
+            hover_preview.clear_hover_target()
             try:
                 from .. import selection_keys
 

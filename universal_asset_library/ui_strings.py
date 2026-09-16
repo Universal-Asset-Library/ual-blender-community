@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple
 # Soft target for one label line in a ~180–220px sidebar
 _MAX_LABEL = 28
 
-ADDON_VERSION = "0.3.99"
+ADDON_VERSION = "0.3.100"
 CHANGELOG_BLURB = "ambientCG thumbs fixed"
 SCOPE_MY_LIBRARY = "My Library"
 SCOPE_ONLINE = "Online Sources"

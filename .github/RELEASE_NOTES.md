@@ -1,12 +1,12 @@
-# UAL Blender 0.3.99
+# UAL Blender 0.3.100
 
 ## Highlights
 
-Material Blend in the UAL sidebar now collapses on its own. Collapsing Universal Asset Library no longer hides Material Blend.
+Dropping or importing an asset no longer leaves the large GPU preview stuck over the viewport.
 
 ## Fixes
 
-- N-panel: Material Blend is a separate top-level section (Community and Pro)
+- GPU hover preview clears when starting or finishing Drop, and after a successful Import (Community and Pro)
 
 ## Compatibility
 
